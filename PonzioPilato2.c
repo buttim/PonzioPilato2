@@ -1,4 +1,5 @@
 //!sdcc "%file%"
+//!xcopy/y "%name%".ihx "%name%".hex
 #include "STC15F2K60S2.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -96,17 +97,19 @@ int modulo(int n,int q) {
 
 void tm0(void) __interrupt 1 __using 1 {
 	f1ms=true;
-	unsigned q=100;
+	//to avoid % operations we use powers of 2 (- 1) and the 
+	//bitwise & operator to calculate LED timing
+	unsigned t=millis&0x7F;
 	
 	millis++;
 	
 	if (millis>20000)
 		LED=0;
 	else {
-		if (millis<5000) q=1000;
-		else if (millis<10000) q=500;
-		else if (millis<15000) q=250;
-		LED=modulo(millis,q)<50;
+		if (millis<5000) t=millis&0x3FF;
+		else if (millis<10000) t=millis&0x1FF;
+		else if (millis<15000) t=millis&0xFF;
+		LED=t<50;
 	}
 	TL0=0xCD;		//Initial timer value
 	TH0=0xD4;		//Initial timer value

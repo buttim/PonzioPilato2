@@ -11,14 +11,14 @@ Use `geneeprom.c` to generate `eeprom.bin` and load the bin in STC-ISP
 
 Connections
 ---
-- button on P3.2 (INT0)
+- button on P3.2 (INT0) and GND
 - buzzer on P1.0 and P1.1
 - LED with resistor on P5.5
 
 STC-ISP settings
 ---
 - Enable low voltage reset: OFF
-- Low voltage level: 3.42V (for lithium battery)
+- Low voltage level: 2.96V (triggers at ~3.4V, for lithium battery)
 - EEPROM data from `eeprom.bin`
 
 License
